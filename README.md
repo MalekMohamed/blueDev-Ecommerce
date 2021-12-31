@@ -1,8 +1,6 @@
 <p align="center"><a href="https://still-savannah-89535.herokuapp.com" target="_blank"><img src="https://still-savannah-89535.herokuapp.com/images/logo.png" width="400"></a></p>
 ## How to Set Up
 
-
-
 1. Clone the Git Repository:
 
    Run ```git clone https://github.com/MalekMohamed/blueDev-app.git```
@@ -35,7 +33,7 @@ Alternatively, run ```cp .env.example .env```
 11. Run ```npm install``` to download all packages and dependencies needed for our client
 
 12. While making sure that the API (Laravel) Server is up and running, run ```npm run dev``` to start your Vue application
-
+14. API Documantation on postman ```https://www.getpostman.com/collections/79697a16c4f9ce9e1763```
 13. Congratulations!!!
 ## License
 
