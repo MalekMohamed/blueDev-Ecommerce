@@ -33,7 +33,7 @@ Alternatively, run ```cp .env.example .env```
 11. Run ```npm install``` to download all packages and dependencies needed for our client
 
 12. While making sure that the API (Laravel) Server is up and running, run ```npm run dev``` to start your Vue application
-14. API Documantation on postman ```https://www.getpostman.com/collections/79697a16c4f9ce9e1763```
+14. API Documantation on postman ```https://documenter.getpostman.com/view/12637734/UVRHhiHD```
 13. Congratulations!!!
 ## License
 
