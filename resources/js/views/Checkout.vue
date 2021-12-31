@@ -25,13 +25,13 @@
                                :max="product.qty"
                                class="col-md-6 form-control float-left"
                                v-model="quantity"
-                               @change="checkUnits">
+                               @change="checkQty">
                         <div v-if="isLoggedIn" class="col-md-4 ">
-                            <button v-if="!isInCart" @click="addToCart(product.id,quantity)"
+                            <button  @click="addToCart(product.id,quantity)"
                                     class="btn btn-primary float-right">Add to
                                 cart
                             </button>
-                            <button v-if="isInCart" @click="removeFromCart(product.id)"
+                            <button hidden v-if="isInCart" @click="removeFromCart(product.id)"
                                     class="btn btn-danger float-right">Remove from
                                 cart
                             </button>
@@ -58,9 +58,9 @@
 import axios from "../axios";
 
 export default {
-    props: ['pid'],
     data() {
         return {
+            pid: this.$route.params.pid ? this.$route.params.pid : null,
             address: "",
             quantity: 1,
             isLoggedIn: null,
@@ -81,8 +81,6 @@ export default {
             })
         if (localStorage.getItem('token') != null) {
             this.user = JSON.parse(localStorage.getItem('user'))
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
         }
     },
     methods: {
@@ -126,23 +124,14 @@ export default {
                 })
             });
         },
-        placeOrder(e) {
-            e.preventDefault()
-            axios.post('api/carts/', {
-                address: this.address,
-                quantity: this.quantity,
-                product: this.product.id
-            })
-                .then(response => {
-                    this.$router.push('/confirmation')
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        },
-        checkUnits(e) {
+        checkQty(e) {
             if (this.quantity > this.product.qty) {
                 this.quantity = this.product.qty
+                this.$notify({
+                    type: 'error',
+                    title: 'Cart Error',
+                    text: 'Product is Out of Stock'
+                })
             }
         }
     }

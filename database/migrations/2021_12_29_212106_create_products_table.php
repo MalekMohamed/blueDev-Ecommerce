@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('sku')->unique();
             $table->integer('price')->default(0);
             $table->integer('qty')->default(0);
+            $table->text('image')->nullable();
             $table->longText('description')->nullable();
             $table->foreignIdFor(\App\Models\Brand::class)->OnDelete('cascade');
             $table->foreignIdFor(\App\Models\Category::class)->OnDelete('cascade');

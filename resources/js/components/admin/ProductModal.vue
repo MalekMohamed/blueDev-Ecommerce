@@ -47,7 +47,7 @@
                 <div class="modal-footer">
                     <slot name="footer">
                         <button class="modal-default-button btn btn-primary" @click="submitModalForm">
-                            Finish
+                           Submit
                         </button>
                     </slot>
                 </div>

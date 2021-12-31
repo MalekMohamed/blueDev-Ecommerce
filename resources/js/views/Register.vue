@@ -5,6 +5,7 @@
             <div class="col-md-8">
                 <div class="card card-default">
                     <div class="card-header">Register</div>
+                    <notifications/>
 
                     <div class="card-body">
                         <form>
@@ -76,7 +77,7 @@
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                        c_password : this.password_confirmation
+                        password_confirmation : this.password_confirmation
                       })
                       .then(response => {
                           this.$notify({
@@ -92,7 +93,21 @@
                             }
                       })
                       .catch(error => {
-                        console.error(error);
+                          if (typeof error.response.data.message === 'object') {
+                              Object.keys(error.response.data.message).forEach(fieldError => {
+                                  this.$notify({
+                                      type: 'error',
+                                      title: fieldError,
+                                      text: error.response.data.message[fieldError]
+                                  })
+                              })
+                          } else {
+                              this.$notify({
+                                  type: 'error',
+                                  title: 'Error',
+                                  text: error.response.data.message
+                              })
+                          }
                       });
                 } else {
                     this.password = ""

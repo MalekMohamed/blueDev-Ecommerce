@@ -12,7 +12,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api')->only(['update']);
-        $this->middleware('isAdmin')->only(['destroy','index','show']);
+        $this->middleware('isAdmin')->only(['destroy', 'index', 'show']);
     }
 
     /**
@@ -29,6 +29,7 @@ class UserController extends Controller
             'message' => $users ? '' : 'Error getting Users'
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +44,7 @@ class UserController extends Controller
             'message' => $user ? '' : 'Error getting User'
         ]);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,7 +53,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|unique:users',

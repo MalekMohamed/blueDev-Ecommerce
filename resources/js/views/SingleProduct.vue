@@ -12,7 +12,7 @@
                 </h4>
                 <br>
                 <hr>
-                <router-link :to="{ path: '/checkout?pid='+product.id }" class="col-md-4 btn btn-sm btn-primary float-right">Buy Now</router-link>
+                <router-link :to="{ name: 'checkout',params: {pid: product.id} }" class="col-md-4 btn btn-sm btn-primary float-right">Buy Now</router-link>
             </div>
         </div>
     </div>

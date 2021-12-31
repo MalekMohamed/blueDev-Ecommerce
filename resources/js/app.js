@@ -50,10 +50,9 @@ const router = new VueRouter({
             component: SingleProduct
         },
         {
-            path: '/checkout',
+            path: '/checkout/:pid',
             name: 'checkout',
             component: Checkout,
-            props: (route) => ({pid: route.query.pid})
         },
         {
             path: '/cart',

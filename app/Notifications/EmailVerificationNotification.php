@@ -31,7 +31,7 @@ class EmailVerificationNotification extends Notification
 
         $array['view'] = 'emails.verify';
         $array['subject'] = 'Email Verification';
-        $array['content'] = 'Hello ' . auth('api')->user()->name .' You registered an account on eCommerceApp, before being able to use your account you need to verify that this is your email address by clicking the button below.';
+        $array['content'] = 'You have registered an account on eCommerceApp, before being able to use your account you need to verify that this is your email address by clicking the button below.';
         $array['link'] = route('verification.confirmation', $notifiable->verification_code);
 
         return (new MailMessage)

@@ -61,7 +61,7 @@ class ProductController extends Controller
             'brand_id' => 'required|integer',
             'category_id' => 'required|integer',
             'description' => 'max:150',
-            'image' => 'required',
+            'image' => 'required|string',
         ]);
         if ($validation->fails()) {
             return response()->json([
@@ -109,7 +109,7 @@ class ProductController extends Controller
             'brand_id' => 'integer',
             'category_id' => 'integer',
             'description' => 'max:150',
-            'image' => 'mimes:jpg,jpeg,png|max:2048',
+            'image' => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -118,13 +118,8 @@ class ProductController extends Controller
                 'message' => $validator->messages()->toArray()
             ], 500);
         }
-        $name = '';
-        if($request->hasFile('image')){
-            $name = time()."_".$request->file('image')->getClientOriginalName();
-            $request->file('image')->move(public_path('images'), $name);
-        }
-        $product->image = $name ? asset("images/$name") : $product->image;
-        $product->update($request->except('image'));
+
+        $product->update($request->all());
         $product->save();
         return response()->json($product);
     }
