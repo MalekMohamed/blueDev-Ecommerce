@@ -12,6 +12,15 @@ class Brand extends Model
 
     protected $guarded = [];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($brand) {
+
+            $brand->products()->delete();
+        });
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -20,9 +29,9 @@ class Brand extends Model
     public function getCategoriesAttribute()
     {
         $categories = $this->products()
-        ->with(['brand' => function ($query) {
-            $query->where('brands.id', $this->id);
-        }])->get()
+            ->with(['brand' => function ($query) {
+                $query->where('brands.id', $this->id);
+            }])->get()
             ->pluck('category_id')->flatten();
         $categoriesData = Category::whereIn('id', $categories)->get();
         return $categoriesData;

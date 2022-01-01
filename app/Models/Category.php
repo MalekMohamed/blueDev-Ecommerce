@@ -11,7 +11,14 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($category) {
 
+            $category->products()->delete();
+        });
+    }
     public function products()
     {
         return $this->hasMany(Product::class);
