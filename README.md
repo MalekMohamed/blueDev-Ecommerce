@@ -20,7 +20,7 @@ Alternatively, run ```cp .env.example .env```
 
 6. Run ```php artisan key:generate``` to set the APP_KEY value in the .env file
 
-7. Having created a database, and specifying the same with the right credentials in your .env file, run ```php artisan migrate``` to create the tables
+7. Having created a database, and specifying the same with the right credentials in your .env file, run ```php artisan migrate --seed``` to create the tables
 
 8. Run ```php artisan passport:keys``` to set the Passport_KEYS.
 
