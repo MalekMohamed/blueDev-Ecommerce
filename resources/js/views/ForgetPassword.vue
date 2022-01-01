@@ -46,16 +46,30 @@ export default {
                 email: this.email,
             })
                 .then(response => {
-                        this.$router.push('/login').then(resp => {
-                            this.$notify({
-                                type: 'success',
-                                title: 'Success',
-                                text: 'Please Check Your Email to continue the process',
-                            });
-                        })
+                    this.$router.push('/login').then(resp => {
+                        this.$notify({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Please Check Your Email to continue the process',
+                        });
+                    })
                 })
                 .catch(error => {
-                    console.error(error);
+                    if (typeof error.response.data.message === 'object') {
+                        Object.keys(error.response.data.message).forEach(fieldError => {
+                            this.$notify({
+                                type: 'error',
+                                title: fieldError,
+                                text: error.response.data.message[fieldError]
+                            })
+                        })
+                    } else {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Error',
+                            text: error.response.data.message
+                        })
+                    }
                 });
         }
     }
