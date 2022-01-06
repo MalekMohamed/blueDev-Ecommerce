@@ -75,12 +75,20 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function update(Request $request,$id)
     {
-        //
+        $cart = Cart::with(['product', 'user'])->findOrNew($id);
+        $cart->qty = $request->qty;
+        $cart->save();
+        return response()->json([
+            'status' => (bool)$cart,
+            'data' => $cart,
+            'message' => $cart ? 'Cart Updated!' : 'Error updating cart'
+        ]);
     }
 
 

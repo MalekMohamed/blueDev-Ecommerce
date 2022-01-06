@@ -73,15 +73,16 @@
             }
         },
         beforeMount(){
-            axios.get('/api/users')
-            .then(response => {
-                this.users = response.data.data
-            })
-            .catch(error => {
-                console.error(error);
-            })
+           this.getUsers();
         },
         methods: {
+            getUsers() {
+                axios.get('/api/users').then(response => {
+                    this.users = response.data.data;
+                }).catch(error => {
+                    this.sendErrorMsg(error)
+                })
+            },
             createNewUser() {
                 axios.post('/api/register',this.currentUser).then(response => {
                     this.users.push(response.data)
@@ -92,21 +93,7 @@
                     });
                     this.currentUser = {};
                 }).catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
             },
             updateUser () {
@@ -119,21 +106,7 @@
                         text: 'User Updated successfully.',
                     });
                 }).catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
             },
             deleteUser (user) {
@@ -147,21 +120,7 @@
                         text: 'User Deleted successfully.',
                     });
                 }).catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
             }
         }

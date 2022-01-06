@@ -90,7 +90,20 @@ class ProductController extends Controller
             'message' => $product ? '' : 'Error getting Product'
         ]);
     }
-
+    public function searchForProduct($terms)
+    {
+        $keywords = explode(' ',$terms);
+        $product = Product::with(['category', 'brand', 'user'])->Where(function ($query) use ($keywords) {
+            foreach ($keywords as $keyword) {
+                $query->orwhere('name', 'like',  '%' . $keyword .'%');
+            }
+        })->get();
+        return response()->json([
+            'status' => (bool)$product,
+            'data' => $product,
+            'message' => $product ? '' : 'Error getting Product'
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.

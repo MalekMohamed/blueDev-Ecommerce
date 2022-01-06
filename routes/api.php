@@ -22,6 +22,7 @@ use App\Http\Controllers\UserController;
 //Route::post('/update-product/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::post('/upload-file', [ProductController::Class,'uploadFile']);
 Route::resource('/products', ProductController::class);
+Route::get('/search/{query}', [ProductController::class, 'searchForProduct'])->name('product.search');
 Route::resource('/categories', CategoryController::class);
 Route::resource('/brands', BrandController::class);
 Route::resource('/users', UserController::class)->except('store');

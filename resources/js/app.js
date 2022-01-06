@@ -3,8 +3,41 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Notifications from 'vue-notification'
 window.axios = axios
+
 Vue.use(VueRouter)
 Vue.use(Notifications)
+Vue.mixin({
+    methods: {
+        sendErrorMsg: error => {
+            if (typeof error.response.data.message === 'object') {
+                Object.keys(error.response.data.message).forEach(fieldError => {
+                    Vue.notify({
+                        type: 'error',
+                        title: fieldError,
+                        text: error.response.data.message[fieldError]
+                    })
+                })
+            } else {
+                Vue.notify({
+                    type: 'error',
+                    title: 'Error',
+                    text: error.response.data.message
+                })
+            }
+        },
+        getUserCart() {
+          return axios.get('/api/cart')
+        },
+        addProductToCart(product,qty) {
+            this.$emit('cartUpdate')
+            return axios.post('/api/cart', {'product_id': product, 'qty': qty})
+        },
+        removeProductFromCart(product) {
+            this.$emit('cartUpdate')
+            return axios.delete('/api/cart/' + product)
+        },
+    }
+})
 import App from './views/App'
 import Home from './views/Home'
 import Login from './views/Login'
@@ -92,6 +125,7 @@ const router = new VueRouter({
     ],
 })
 router.beforeEach((to, from, next) => {
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('token') == null) {
             next({

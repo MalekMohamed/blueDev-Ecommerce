@@ -158,42 +158,31 @@ export default {
         Modal
     },
     beforeMount() {
-        axios.get('/api/products')
-            .then(response => {
-                this.products = response.data.data
-            })
-            .catch(error => {
-                this.$notify({
-                    type: 'error',
-                    title: 'Error',
-                    text: error.response.data.message
-                })
-            })
+        this.getProducts();
         this.getBrands();
         this.getCategories();
 
     },
     methods: {
+        getProducts() {
+            axios.get('/api/products').then(response => {
+                this.products = response.data.data;
+            }).catch(error => {
+                this.sendErrorMsg(error)
+            })
+        },
         getBrands() {
             axios.get('/api/brands').then(response => {
                 this.brands = response.data.data;
             }).catch(error => {
-                this.$notify({
-                    type: 'error',
-                    title: 'Error',
-                    text: error.response.data.message
-                })
+                this.sendErrorMsg(error)
             })
         },
         getCategories() {
             axios.get('/api/categories').then(response => {
                 this.categories = response.data.data;
             }).catch(error => {
-                this.$notify({
-                    type: 'error',
-                    title: 'Error',
-                    text: error.response.data.message
-                })
+                this.sendErrorMsg(error)
             })
         },
         addNewCategory() {
@@ -208,21 +197,7 @@ export default {
                     })
                 })
                 .catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
         },
         addNewBrand() {
@@ -237,21 +212,7 @@ export default {
                     })
                 })
                 .catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
         },
         updateCategory() {
@@ -264,21 +225,7 @@ export default {
                     })
                 })
                 .catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
         },
         updateBrand() {
@@ -291,21 +238,7 @@ export default {
                     })
                 })
                 .catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
         },
         deleteBrand(brand) {
@@ -319,21 +252,7 @@ export default {
                     text: response.data.message,
                 });
             }).catch(error => {
-                if (typeof error.response.data.message === 'object') {
-                    Object.keys(error.response.data.message).forEach(fieldError => {
-                        this.$notify({
-                            type: 'error',
-                            title: fieldError,
-                            text: error.response.data.message[fieldError]
-                        })
-                    })
-                } else {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Error',
-                        text: error.response.data.message
-                    })
-                }
+                this.sendErrorMsg(error)
             })
         },
         deleteCategory(category) {
@@ -347,21 +266,7 @@ export default {
                     text: response.data.message,
                 });
             }).catch(error => {
-                if (typeof error.response.data.message === 'object') {
-                    Object.keys(error.response.data.message).forEach(fieldError => {
-                        this.$notify({
-                            type: 'error',
-                            title: fieldError,
-                            text: error.response.data.message[fieldError]
-                        })
-                    })
-                } else {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Error',
-                        text: error.response.data.message
-                    })
-                }
+                this.sendErrorMsg(error)
             })
         },
         deleteProduct(product) {
@@ -375,21 +280,7 @@ export default {
                     text: 'Product Deleted successfully.',
                 });
             }).catch(error => {
-                if (typeof error.response.data.message === 'object') {
-                    Object.keys(error.response.data.message).forEach(fieldError => {
-                        this.$notify({
-                            type: 'error',
-                            title: fieldError,
-                            text: error.response.data.message[fieldError]
-                        })
-                    })
-                } else {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Error',
-                        text: error.response.data.message
-                    })
-                }
+                this.sendErrorMsg(error)
             })
         },
         newProduct() {
@@ -424,11 +315,7 @@ export default {
                     });
                 })
                 .catch(error => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Error',
-                        text: error.response.data.message
-                    })
+                    this.sendErrorMsg(error)
                 })
         },
         addProduct(product) {
@@ -450,21 +337,7 @@ export default {
                 });
             })
                 .catch(error => {
-                    if (typeof error.response.data.message === 'object') {
-                        Object.keys(error.response.data.message).forEach(fieldError => {
-                            this.$notify({
-                                type: 'error',
-                                title: fieldError,
-                                text: error.response.data.message[fieldError]
-                            })
-                        })
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        })
-                    }
+                    this.sendErrorMsg(error)
                 })
         },
     }

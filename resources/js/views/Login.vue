@@ -93,12 +93,7 @@
                         }
                       })
                       .catch(error => {
-                          this.$notify({
-                              type: 'error',
-                              title: 'Error',
-                              text: error.response.data.message,
-                          });
-                        console.log(error.response.data.message);
+                          this.sendErrorMsg(error)
                       });
                 }
             },

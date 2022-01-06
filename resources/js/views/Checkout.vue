@@ -61,7 +61,6 @@ export default {
     data() {
         return {
             pid: this.$route.params.pid ? this.$route.params.pid : null,
-            address: "",
             quantity: 1,
             isLoggedIn: null,
             product: [],
@@ -91,7 +90,7 @@ export default {
             this.$router.push({name: 'register', params: {nextUrl: this.$route.fullPath}})
         },
         addToCart(product, quantity) {
-            axios.post('/api/cart', {'product_id': product, 'qty': quantity}).then(response => {
+            this.addProductToCart(product,quantity).then(response => {
                 this.isInCart = true;
                 this.$emit('cartUpdate')
                 this.$notify({
@@ -100,15 +99,11 @@ export default {
                     text: response.data.message
                 })
             }).catch(error => {
-                this.$notify({
-                    type: 'error',
-                    title: 'Cart Error',
-                    text: error.response.data.message
-                })
+                this.sendErrorMsg(error)
             });
         },
         removeFromCart(product) {
-            axios.delete('/api/cart/' + product).then(response => {
+           this.removeProductFromCart(product).then(response => {
                 this.isInCart = false;
                 this.$emit('cartUpdate')
                 this.$notify({
@@ -117,11 +112,7 @@ export default {
                     text: response.data.message
                 })
             }).catch(error => {
-                this.$notify({
-                    type: 'error',
-                    title: 'Cart Error',
-                    text: error.response.data.message
-                })
+                this.sendErrorMsg(error)
             });
         },
         checkQty(e) {
